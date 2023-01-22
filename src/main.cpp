@@ -1,6 +1,9 @@
 #include <iostream>
+
 #include <Eigen/Dense>
- 
+
+#include <main.hpp>
+
 int main()
 {
   Eigen::MatrixXd m(2,2);
