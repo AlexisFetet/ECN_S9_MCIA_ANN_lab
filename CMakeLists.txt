@@ -7,7 +7,10 @@ enable_testing()
 add_executable(${PROJECT_NAME}
 src/main.cpp)
 
-include_directories(include lib/eigen)
+include_directories(include)
+
+find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+target_link_libraries (${PROJECT_NAME} Eigen3::Eigen)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
