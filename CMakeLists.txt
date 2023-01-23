@@ -13,6 +13,7 @@ src/labels.cpp
 src/parser.c)
 
 include_directories(include)
+add_subdirectory(lib) # build libraries if needed before including them
 
 find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 target_link_libraries (${PROJECT_NAME} Eigen3::Eigen)
