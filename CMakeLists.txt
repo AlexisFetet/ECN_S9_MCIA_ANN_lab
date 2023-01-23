@@ -8,6 +8,8 @@ enable_testing()
 
 add_executable(${PROJECT_NAME}
 src/main.cpp
+src/images.cpp
+src/labels.cpp
 src/parser.c)
 
 include_directories(include)
