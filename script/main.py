@@ -2,11 +2,13 @@
 This file contains a python script to construct a neural network to work on MNIST dataset
 """
 
+import cProfile
 import os
+import random
 from copy import deepcopy
 
-from mnist import MNIST
 import numpy as np
+from mnist import MNIST
 
 DATA_FOLDER = os.path.abspath("data")
 
@@ -35,18 +37,18 @@ class Layer():
         """
         computes output of the layer
         """
-        self.last_input = deepcopy(input_vector)
-        self.last_z = deepcopy(
-            np.dot(self.weight, input_vector) + np.dot(self.bias, np.ones((1, self.m))))
-        self.last_a = deepcopy(self.activation(self.last_z))
-        return deepcopy(self.last_a)
+        self.last_input = input_vector
+        self.last_z = np.dot(self.weight, input_vector) + \
+            np.dot(self.bias, np.ones((1, self.m)))
+        self.last_a = self.activation(self.last_z)
+        return self.last_a
 
     def backward(self, delta, weight: np.ndarray):
         """
         computes error based on previous layer error and weight
         """
-        self.last_delta = deepcopy(np.dot(weight.transpose(), delta) *
-                                   self.d_activation(self.last_z))
+        self.last_delta = np.dot(weight.transpose(), delta) * \
+            self.d_activation(self.last_z)
         return deepcopy(self.last_delta)
 
     def update(self):
@@ -55,11 +57,8 @@ class Layer():
         """
         self.weight -= self.alpha/self.m * np.dot(
             self.last_delta, self.last_input.transpose())
-        if self.m == 1:
-            self.bias -= (self.alpha / self.m) * self.last_delta
-        else:
-            self.bias -= (self.alpha / self.m) * \
-                np.prod(self.last_delta, np.ones((self.m, 1)).transpose())
+        self.bias -= (self.alpha / self.m) * \
+            np.dot(self.last_delta, np.ones((self.m, 1)))
 
 
 def activation_function(input_vector) -> np.ndarray:
@@ -82,8 +81,9 @@ class Network():
     represents the network
     """
 
-    def __init__(self, layers: list[Layer]) -> None:
+    def __init__(self, layers: list[Layer], m) -> None:
         self.layers: list[Layer] = layers
+        self.m = m
 
     def compute(self, input_vector):
         """
@@ -99,9 +99,10 @@ class Network():
         update weight
         """
         result = self.compute(image_)
-        expected_vector = np.zeros((10, 1))
-        expected_vector[expected] = 1
-        delta = result - expected_vector
+        expected_result = np.zeros(np.shape(result))
+        for indx, expected_val in enumerate(expected):
+            expected_result[expected_val, indx] = 1
+        delta = result - expected_result
         for indx, layer in reversed(list(enumerate(self.layers))):
             if indx == len(self.layers)-1:
                 delta = layer.backward(delta, np.eye(len(delta)))
@@ -119,26 +120,31 @@ class Network():
         return output.index(max(output))
 
 
+def grouped(iterable, n):
+    "s -> (s0,s1,s2,...sn-1), (sn,sn+1,sn+2,...s2n-1), (s2n,s2n+1,s2n+2,...s3n-1), ..."
+    return zip(*[iter(iterable)]*n)
+
+
 def img2arr(image_):
     """
     transforms image to vector
     """
-    return np.array([[x] for x in image_])
+    return np.c_[image_]  # mieux que np.array([[x] for x in image_])
 
 
-if __name__ == '__main__':
+def main():
 
     mndata = MNIST(DATA_FOLDER)
-
-    layer1 = Layer(28*28, 30, activation_function,
-                   d_activation_function, 0.05, 1)
-    layer2 = Layer(30, 10, activation_function, d_activation_function, 0.05, 1)
-    network = Network([layer1, layer2])
-
     training_images, training_labels = mndata.load_training()
     test_images, test_labels = mndata.load_testing()
+    M = 10
 
-    ## reference 
+    layer1 = Layer(28*28, 30, activation_function,
+                   d_activation_function, 0.05, M)
+    layer2 = Layer(30, 10, activation_function, d_activation_function, 0.05, M)
+    network = Network([layer1, layer2], M)
+
+    # reference
     print("REFERENCE")
     correct = 0
     for (image, label) in list(zip(test_images, test_labels)):
@@ -146,12 +152,26 @@ if __name__ == '__main__':
             correct += 1
     print(f"correctness : {correct/len(test_images)*100}%")
 
-    for (image, label) in list(zip(training_images, training_labels)):
-        network.back_propagation(img2arr(image)/255, label)
+    list_couples = list(
+        zip([img2arr(image)/255 for image in training_images], training_labels))
 
-    print("AFTER TRAINING")
-    correct = 0
-    for (image, label) in list(zip(test_images, test_labels)):
-        if network.result(img2arr(image)/255) == label:
-            correct += 1
-    print(f"correctness : {correct/len(test_images)*100}%")
+    for train in range(30):
+        random.shuffle(list_couples)
+        for small_list_couples in grouped(list_couples, M):
+            label = [elem[1] for elem in small_list_couples]
+            images = [elem[0] for elem in small_list_couples]
+            image_list = images[0]
+            for image in images[1:]:
+                image_list = np.c_[image_list, image]
+            network.back_propagation(image_list, label)
+
+        print(f"AFTER EPOCH {train + 1}")
+        correct = 0
+        for (image, label) in list(zip(test_images, test_labels)):
+            if network.result(img2arr(image)/255) == label:
+                correct += 1
+        print(f"correctness : {correct/len(test_images)*100}%")
+
+
+if __name__ == "__main__":
+    cProfile.run('main()')
