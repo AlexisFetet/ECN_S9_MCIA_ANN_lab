@@ -18,10 +18,10 @@ class Layer():
     """
 
     def __init__(self, connections_in_count, connections_out_count, func, d_func, alpha) -> None:
-        self.weight = np.array(list(map(
-            lambda x: x * np.random.normal(0,
-                                           1/np.sqrt(connections_in_count)),
-            np.ones((connections_out_count, connections_in_count)))))
+        v_gaussian = np.vectorize(
+            lambda x: x * np.random.normal(0, 1/np.sqrt(connections_in_count)))
+        self.weight = v_gaussian(
+            np.ones((connections_out_count, connections_in_count)))
         self.bias = np.zeros((connections_out_count, 1))
         self.activation = func
         self.d_activation = d_func
