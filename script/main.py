@@ -1,4 +1,10 @@
+import os
 import numpy as np
+
+TRAINING_IMAGES = os.path.abspath("../data/training/train-images-idx3-ubyte")
+TRAINING_LABELS = os.path.abspath("../data/training/train-labels-idx1-ubyte")
+TEST_IMAGES = os.path.abspath("../data/test/t10k-images-idx3-ubyte")
+TEST_LABELS = os.path.abspath("../data/test/t10k-labels-idx1-ubyte")
 
 class Layer():
 
@@ -39,6 +45,7 @@ def d_activation_function(x) -> np.ndarray:
 
 
 if __name__ == '__main__':
+    
 
     ALPHA = 1.1  # pas d'apprentissage
 
