@@ -1,5 +1,5 @@
-#ifndef LAYER_H
-#define LAYER_H
+#ifndef LAYER_HPP
+#define LAYER_HPP
 
 #include <Eigen/Dense>
 #include <random>
