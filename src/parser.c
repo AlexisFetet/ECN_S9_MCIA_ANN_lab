@@ -12,7 +12,7 @@ uint32_t make_uint32(byte buffer[])
 
 byte* read_labels(const char filename[], unsigned* n )
 {
-    FILE* data = fopen(filename, "r");
+    FILE* data = fopen(filename, "rb");
 
     if (data == NULL)
     {
@@ -38,7 +38,7 @@ byte* read_labels(const char filename[], unsigned* n )
 
 image* read_images(const char filename[], unsigned* n )
 {
-    FILE* data = fopen(filename, "r");
+    FILE* data = fopen(filename, "rb");
 
     if (data == NULL)
     {
