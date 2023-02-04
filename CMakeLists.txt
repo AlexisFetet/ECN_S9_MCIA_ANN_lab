@@ -7,8 +7,6 @@ add_compile_definitions(TRAINING_LABELS="${CMAKE_CURRENT_LIST_DIR}/data/train-la
 add_compile_definitions(TEST_IMAGES="${CMAKE_CURRENT_LIST_DIR}/data/t10k-images-idx3-ubyte")
 add_compile_definitions(TEST_LABELS="${CMAKE_CURRENT_LIST_DIR}/data/t10k-labels-idx1-ubyte")
 
-
-
 include(CTest)
 enable_testing()
 
@@ -19,11 +17,10 @@ src/network.cpp
 src/parser.c)
 
 find_package(OpenMP REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE OpenMP::OpenMP_CXX)
 
 include_directories(lib/eigen)
 include_directories(include)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE OpenMP::OpenMP_CXX)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
