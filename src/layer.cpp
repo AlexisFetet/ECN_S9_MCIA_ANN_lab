@@ -48,7 +48,7 @@ namespace MCIA
 
     void Layer::update()
     {
-        m_weight -= (m_alpha / (double)m_m) * (m_last_delta * m_last_input.transpose());
-        m_bias -= (m_alpha / (double)m_m) * m_last_delta * m_ones_transpose;
+        m_weight.noalias() -= (m_alpha / (double)m_m) * (m_last_delta * m_last_input.transpose());
+        m_bias.noalias() -= (m_alpha / (double)m_m) * m_last_delta * m_ones_transpose;
     }
 }
