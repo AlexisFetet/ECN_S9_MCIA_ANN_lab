@@ -29,14 +29,12 @@ namespace MCIA
     {
         m_last_input = input_vector;
         m_last_z = m_weight * input_vector + m_bias * m_ones;
-        Eigen::MatrixXd temp = m_last_z.unaryExpr(mfp_activation_function);
-        return temp;
+        return m_last_z.unaryExpr(mfp_activation_function);
     }
 
     Eigen::MatrixXd Layer::forward(Eigen::MatrixXd input_vector)
     {
-        Eigen::MatrixXd temp = (m_weight * input_vector + m_bias).unaryExpr(mfp_activation_function);
-        return temp;
+        return (m_weight * input_vector + m_bias).unaryExpr(mfp_activation_function);
     }
 
     Eigen::MatrixXd Layer::backward(Eigen::MatrixXd delta,
