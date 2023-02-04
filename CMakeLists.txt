@@ -16,8 +16,12 @@ src/layer.cpp
 src/network.cpp
 src/parser.c)
 
+find_package(OpenMP REQUIRED)
+
 include_directories(lib/eigen)
 include_directories(include)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE OpenMP::OpenMP_CXX)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

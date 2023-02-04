@@ -12,7 +12,7 @@ namespace MCIA
     public:
         Network(std::vector<Layer> layers, int m);
         ~Network();
-        Eigen::MatrixXd compute(Eigen::MatrixXd input_vector);
+        Eigen::MatrixXd compute_learn(Eigen::MatrixXd input_vector);
         void learn(Eigen::MatrixXd image, Eigen::VectorXd expected);
         int result(Eigen::MatrixXd image);
 

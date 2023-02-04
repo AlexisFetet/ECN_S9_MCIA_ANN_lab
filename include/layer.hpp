@@ -17,6 +17,7 @@ namespace MCIA
               double alpha,
               int m);
         ~Layer();
+        Eigen::MatrixXd forward_learn(Eigen::MatrixXd input_vector);
         Eigen::MatrixXd forward(Eigen::MatrixXd input_vector);
         Eigen::MatrixXd backward(Eigen::MatrixXd delta, Eigen::MatrixXd weight);
         void update(void);
