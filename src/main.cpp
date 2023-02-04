@@ -70,8 +70,8 @@ int main()
         std::cout << "correctness : " << correct / float(n_test) * 100.0 << " %" << std::endl;
     }
 
-    free(training_set);
-    free(test_set);
+    delete training_set;
+    delete test_set;
 
     return 0;
 }
