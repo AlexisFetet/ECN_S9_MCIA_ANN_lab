@@ -7,6 +7,8 @@ add_compile_definitions(TRAINING_LABELS="${CMAKE_CURRENT_LIST_DIR}/data/train-la
 add_compile_definitions(TEST_IMAGES="${CMAKE_CURRENT_LIST_DIR}/data/t10k-images-idx3-ubyte")
 add_compile_definitions(TEST_LABELS="${CMAKE_CURRENT_LIST_DIR}/data/t10k-labels-idx1-ubyte")
 
+
+
 include(CTest)
 enable_testing()
 

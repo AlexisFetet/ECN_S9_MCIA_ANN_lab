@@ -1,8 +1,7 @@
-#include <main.hpp>
+#include "main.hpp"
 
 int main()
 {
-    std::cout << Eigen::nbThreads()<< std::endl;
     unsigned int n, n_test;
     int m = 10;
     image *training_images = read_images(TRAINING_IMAGES, &n);

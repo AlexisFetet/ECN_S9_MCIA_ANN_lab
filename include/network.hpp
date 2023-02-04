@@ -1,8 +1,8 @@
 #ifndef NETWORK_HPP
 #define NETWORK_HPP
 
-#include <Eigen/Dense>
-#include <layer.hpp>
+#include "Eigen/Dense"
+#include "layer.hpp"
 #include <vector>
 
 namespace MCIA

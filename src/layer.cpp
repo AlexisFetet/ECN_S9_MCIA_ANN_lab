@@ -1,4 +1,4 @@
-#include <layer.hpp>
+#include "layer.hpp"
 
 namespace MCIA
 {
@@ -20,7 +20,7 @@ namespace MCIA
         std::default_random_engine generator;
         std::normal_distribution<double> distribution(0, 1 / sqrt(connections_in_count));
         m_weight = m_weight.unaryExpr([&generator, &distribution](double value)
-                                      {return distribution(generator) *value; });
+                                      { return distribution(generator) * value; });
     }
 
     Layer::~Layer() {}
