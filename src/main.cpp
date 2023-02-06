@@ -46,7 +46,7 @@ int main()
 
     for (int epoch = 1; epoch <= 30; ++epoch)
     {
-        // std::random_shuffle(training_set->begin(), training_set->end());
+        std::random_shuffle(training_set->begin(), training_set->end());
         for (int batch = 0; batch * m < n; ++batch)
         {
             Eigen::MatrixXd images = Eigen::MatrixXd(784, m);
