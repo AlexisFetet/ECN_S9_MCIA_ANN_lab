@@ -8,8 +8,8 @@ namespace MCIA
                  double (*d_activation_function)(double),
                  double alpha,
                  int m)
-        : mfp_activation_function(std::ref(activation_function)),
-          mfp_d_activation_function(std::ref(d_activation_function))
+        : mfp_activation_function(activation_function),
+          mfp_d_activation_function(d_activation_function)
     {
         m_alpha = alpha;
         m_m = m;
