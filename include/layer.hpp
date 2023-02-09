@@ -12,8 +12,8 @@ namespace MCIA
     public:
         Layer(int connections_in_count,
               int connections_out_count,
-              double (*activation_function)(double),
-              double (*d_activation_function)(double),
+              double (activation_function)(double),
+              double (d_activation_function)(double),
               double alpha,
               int m);
         ~Layer();
@@ -33,8 +33,8 @@ namespace MCIA
         Eigen::MatrixXd m_last_z;
         Eigen::MatrixXd m_ones;
         Eigen::MatrixXd m_ones_transpose;
-        std::reference_wrapper<double (*)(double)> mfp_activation_function;
-        std::reference_wrapper<double (*)(double)> mfp_d_activation_function;
+        std::function<double (double)> mfp_activation_function;
+        std::function<double (double)> mfp_d_activation_function;
         double m_alpha;
         int m_m;
     };

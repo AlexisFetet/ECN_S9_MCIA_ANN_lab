@@ -8,8 +8,8 @@ int main()
     byte *training_labels = read_labels(TRAINING_LABELS, &n);
     image *test_images = read_images(TEST_IMAGES, &n_test);
     byte *test_labels = read_labels(TEST_LABELS, &n_test);
-    MCIA::Layer layer1(784, 30, &MCIA::activation_function, &MCIA::d_activation_function, 0.05, m);
-    MCIA::Layer layer2(30, 10, &MCIA::activation_function, &MCIA::d_activation_function, 0.05, m);
+    MCIA::Layer layer1(784, 30, MCIA::activation_function, MCIA::d_activation_function, 0.05, m);
+    MCIA::Layer layer2(30, 10, MCIA::activation_function, MCIA::d_activation_function, 0.05, m);
     MCIA::Network network(std::vector<MCIA::Layer>{layer1, layer2}, m);
 
     MCIA::set *training_set = new MCIA::set(n);

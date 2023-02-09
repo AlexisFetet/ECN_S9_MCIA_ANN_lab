@@ -4,8 +4,8 @@ namespace MCIA
 {
     Layer::Layer(int connections_in_count,
                  int connections_out_count,
-                 double (*activation_function)(double),
-                 double (*d_activation_function)(double),
+                 double (activation_function)(double),
+                 double (d_activation_function)(double),
                  double alpha,
                  int m)
         : mfp_activation_function(activation_function),
@@ -34,7 +34,8 @@ namespace MCIA
 
     Eigen::MatrixXd Layer::forward(Eigen::MatrixXd input_vector)
     {
-        return (m_weight * input_vector + m_bias).unaryExpr(mfp_activation_function);
+        Eigen::MatrixXd temp = m_weight * input_vector + m_bias;
+        return (temp).unaryExpr(mfp_activation_function);
     }
 
     Eigen::MatrixXd Layer::backward(Eigen::MatrixXd delta,
