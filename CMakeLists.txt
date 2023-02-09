@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(TP VERSION 0.1.0)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 add_compile_definitions(TRAINING_IMAGES="${CMAKE_CURRENT_LIST_DIR}/data/train-images-idx3-ubyte")
 add_compile_definitions(TRAINING_LABELS="${CMAKE_CURRENT_LIST_DIR}/data/train-labels-idx1-ubyte")
 add_compile_definitions(TEST_IMAGES="${CMAKE_CURRENT_LIST_DIR}/data/t10k-images-idx3-ubyte")
